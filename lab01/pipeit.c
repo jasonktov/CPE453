@@ -101,9 +101,10 @@ int main(){
 						}
 					}	
 				}
-			}			
+			}		
+			exit(exit_status);	
 		}
 	}
-	exit(exit_status);
+	exit(1);
 }
 
