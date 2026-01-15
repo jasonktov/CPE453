@@ -50,12 +50,6 @@ void *my_malloc(size_t size){
 }
 
 void *malloc(size_t size){
-    char buff[PBUFF_SIZE] = {0};
-        int len;
-        len = snprintf(buff, sizeof(buff), "MALLOC: sizeof(Node)=%zu\n", 
-                        sizeof(Node));
-        write(STDOUT_FILENO, buff, len);
-    
     void* r = my_malloc(size);
     if(getenv("DEBUG_MALLOC")){
         char buff[PBUFF_SIZE] = {0};
