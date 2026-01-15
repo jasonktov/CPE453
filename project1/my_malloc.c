@@ -1,10 +1,13 @@
 #include "my_malloc.h"
 
-size_t heap_size = 0; //
-size_t heap_length = 0;
-void *heap_start = NULL;
+size_t heap_size = 0; //how far data break has moved
+size_t heap_length = 0; //farthest mem that has been allocated
+void *heap_start = NULL; //head node
 
 ///////////////////////////////////////////////////////////////////////////////
+/*checkHeapSize() compares the current heap_length to heap_size to see if
+    it needs to sbrk() more data. Returns the amount sbrk moved by
+*/
 int checkHeapSize(size_t size){
     if(heap_length + sizeof(Node) + size > heap_size){ 
         //move break
@@ -14,7 +17,7 @@ int checkHeapSize(size_t size){
             //no more space
             errno = ENOMEM;
             
-            char buff[255];
+            char buff[PBUFF_SIZE];
             int len;
             len = snprintf(buff, sizeof(buff),
                     "MALLOC: sbrk returned -1\n");
@@ -32,6 +35,10 @@ int checkHeapSize(size_t size){
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+/*my_malloc() is a helper function that handles the logic of adding a node to 
+    the heap and returning the pointer. 
+    malloc() calls my_malloc() and checks if DEBUG_MALLOC is set
+*/
 void *my_malloc(size_t size){
     if(size == 0){
         return NULL;
@@ -70,9 +77,14 @@ void *malloc(size_t size){
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+/*my_calloc() is a helper function that handles the logic of adding a node to 
+    the heap and returning the pointer. 
+    calloc() calls my_calloc() checks if DEBUG_MALLOC is set
+*/
 void *my_calloc(size_t n, size_t size){
     size_t s = n * size;
     if(n != 0 && s / n != size){
+        //Integer Overflow, crash
         char buff[255];
         int len;
         len = snprintf(buff, sizeof(buff),
@@ -107,6 +119,9 @@ void *calloc(size_t n, size_t size){
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+/*my_free() is a helper function that handles the logic of freeing a node. 
+    free() calls free() and checks if DEBUG_MALLOC is set
+*/
 void my_free(void *p){
     if(p == NULL){
         return;
@@ -151,6 +166,9 @@ void free(void *p){
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+/*my_realloc() is a helper function that handles the logic of resizing a node. 
+    realloc() calls my_realloc() and checks if DEBUG_MALLOC is set
+*/
 void *my_realloc(void *p, size_t size){
     if(p == NULL){
         return my_malloc(size);

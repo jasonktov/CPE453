@@ -29,6 +29,6 @@ void test_dump(int *p, size_t size){
 
 int main(){
     printf("test: running\n");
-    malloc(105);
+    calloc(0xFFFFFFFFF, 0xFFFFFFFF);
     return 0;
 }

@@ -27,7 +27,7 @@ intptr_t nodeGetGap(Node *n){
 }
 
 void nodeCopy(Node *s, Node *d){
-    /*copy data from s to d*/
+    /*copy data from Node s to Node d*/
     uint8_t* s_start = (uint8_t*)nodeGetStart(s);
     uint8_t* d_start = (uint8_t*)nodeGetStart(d);
     int i;
@@ -40,7 +40,10 @@ Node *nodeAdd(void *heap_start, size_t size){
     Node *cur_node = (Node *)heap_start;
     uint8_t inbetween = 0;
     
-    /*iterate through nodes to search for space, if yes, then set inbetween*/
+    /*iterate through nodes to search for space in between nodes, 
+        if yes, then set inbetween flag
+        cur_node is the node right before the free space
+    */
     while(cur_node->next != NULL){ 
         if(nodeGetGap(cur_node) > (intptr_t)size){
             inbetween = 1;
@@ -56,32 +59,33 @@ Node *nodeAdd(void *heap_start, size_t size){
         next = NULL;
     }
     
-    
-    cur_node->next = (Node *)(nodeGetEnd(cur_node)); /*assign address to next*/
-    
-    Node *new_node = cur_node->next; /*treat next address as new Node*/
-    
+    //create new node
+    Node *new_node = (Node *)(nodeGetEnd(cur_node)); 
+    cur_node->next = new_node;
     new_node->size_alloc = size;
     new_node->prev = cur_node;
-    new_node->next = next; /*either NULL or next*/
+    new_node->next = next; /*either NULL or next node*/
    
     return new_node;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+/*Find Node that contains address ptr*/
 Node *nodeFind(void *heap_start, intptr_t ptr){
     Node *cur_node = heap_start;
     
-    int searching = 1;
-    while(searching){
-        if((intptr_t)cur_node == ptr){
-            searching = 0;
+    while(1){
+        if(cur_node == NULL){
+            return NULL;
+        }else if((intptr_t)cur_node == ptr){
+            return cur_node;
         }else if((ptr > (intptr_t)cur_node)&&(ptr < nodeGetEnd(cur_node))){
-            searching = 0;
+            return cur_node;
         }else if(cur_node->next != NULL){
             cur_node = cur_node->next;
         }else{
             return NULL;
         }
     }
-    return cur_node;
+    return NULL;
 }
