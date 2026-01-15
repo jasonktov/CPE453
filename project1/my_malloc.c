@@ -54,11 +54,11 @@ void *malloc(size_t size){
         int len;
         if(r == NULL){
             len = snprintf(buff, sizeof(buff),
-                    "MALLOC: malloc(%ld) => (ptr=%p, size=%d)\n", 
+                    "MALLOC: malloc(%zu) => (ptr=%p, size=%d)\n", 
                     size, r, 0);
         }else{
             len = snprintf(buff, sizeof(buff),
-                    "MALLOC: malloc(%ld) => (ptr=%p, size=%ld)\n", 
+                    "MALLOC: malloc(%zu) => (ptr=%p, size=%zu)\n", 
                     size, r, ((Node*)r - 1)->size_alloc);
                     /*pointer math to get to the header struct"*/
         }
@@ -91,11 +91,11 @@ void *calloc(size_t n, size_t size){
         int len;
         if(r == NULL){
             len = snprintf(buff, sizeof(buff),
-                    "MALLOC: calloc(%ld, %ld) => (ptr=%p, size=%d)\n", 
+                    "MALLOC: calloc(%zu, %zu) => (ptr=%p, size=%d)\n", 
                     n, size, r, 0);
         }else{
             len = snprintf(buff, sizeof(buff),
-                    "MALLOC: calloc(%ld, %ld) => (ptr=%p, size=%ld)\n", 
+                    "MALLOC: calloc(%zu, %zu) => (ptr=%p, size=%zu)\n", 
                     n, size, r, ((Node*)r - 1)->size_alloc);
                     /*pointer math to get to the header struct"*/
         }
@@ -162,7 +162,7 @@ void *my_realloc(void *p, size_t size){
         char buff[255];
         int len;
         len = snprintf(buff, sizeof(buff),
-                "MALLOC: realloc(%p, %ld) mem not found\n",
+                "MALLOC: realloc(%p, %zu) mem not found\n",
                 p, size);
         write(STDOUT_FILENO, buff, len);
         return NULL;
@@ -174,7 +174,7 @@ void *my_realloc(void *p, size_t size){
         char buff[255];
         int len;
         len = snprintf(buff, sizeof(buff),
-                "MALLOC: realloc(%p, %ld) mem not found\n",
+                "MALLOC: realloc(%p, %zu) mem not found\n",
                 p, size);
         write(STDOUT_FILENO, buff, len);
         return NULL;
@@ -229,10 +229,10 @@ void *realloc(void *p, size_t size){
         char buff[PBUFF_SIZE] = {0};
         int len;
         if(r == NULL){
-            len = snprintf(buff, sizeof(buff),"MALLOC: realloc(%p, %ld) => (ptr=%p, size=%d)\n", 
+            len = snprintf(buff, sizeof(buff),"MALLOC: realloc(%p, %zu) => (ptr=%p, size=%d)\n", 
                 p, size, r, 0);
         }else{
-            len = snprintf(buff, sizeof(buff),"MALLOC: realloc(%p, %ld) => (ptr=%p, size=%ld)\n", 
+            len = snprintf(buff, sizeof(buff),"MALLOC: realloc(%p, %zu) => (ptr=%p, size=%zu)\n", 
                 p, size, r, ((Node*)r - 1)->size_alloc);
                 /*pointer math to get to the header struct"*/
         }
