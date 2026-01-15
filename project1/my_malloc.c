@@ -216,7 +216,6 @@ void *my_realloc(void *p, size_t size){
             }
         }else{
             /*shrink*/
-            printf("shrinking\n");
             cur_node->size_alloc = size;
             return (void *)nodeGetStart(cur_node);
         }
