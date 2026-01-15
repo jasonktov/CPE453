@@ -2,13 +2,15 @@
 #include <stdlib.h>
 
 void fill(int *p, size_t size){
-    for(int i = 0; i < size/sizeof(int); i++){
+    int i;
+    for(i = 0; i < size/sizeof(int); i++){
         p[i] = i;
     }
 }
 
 int test_fill(int *p, size_t size){
-    for(int i = 0; i < size/sizeof(int); i++){
+    int i;
+    for(i = 0; i < size/sizeof(int); i++){
         if(p[i] != i){
             return 0;
         }
@@ -18,7 +20,8 @@ int test_fill(int *p, size_t size){
 
 void test_dump(int *p, size_t size){
     printf("test:dump ");
-    for(int i = 0; i < size/sizeof(int); i++){
+    int i;
+    for(i = 0; i < size/sizeof(int); i++){
         printf("|%d", p[i]);
     }
     printf("\n");
