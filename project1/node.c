@@ -30,7 +30,8 @@ void nodeCopy(Node *s, Node *d){
     /*copy data from s to d*/
     uint8_t* s_start = (uint8_t*)nodeGetStart(s);
     uint8_t* d_start = (uint8_t*)nodeGetStart(d);
-    for(int i = 0; i < s->size_alloc; i++){
+    int i;
+    for(i = 0; i < s->size_alloc; i++){
         d_start[i] = s_start[i];
     }
 }
