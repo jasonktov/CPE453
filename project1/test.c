@@ -29,12 +29,6 @@ void test_dump(int *p, size_t size){
 
 int main(){
     printf("test: running\n");
-    int *loc1 = malloc(sizeof(int)*1000);
-    int *loc2 = malloc(sizeof(int)*1000);
-    int *loc3 = malloc(sizeof(int)*1000);
-    int *loc4 = malloc(sizeof(int)*1000);
-    int *loc5 = malloc(sizeof(int)*1000);
-    int *loc6 = malloc(sizeof(int)*1000);
-    int *loc7 = malloc(sizeof(int)*1000);
+    malloc(105);
     return 0;
 }

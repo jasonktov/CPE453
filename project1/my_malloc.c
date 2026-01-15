@@ -37,7 +37,8 @@ void *my_malloc(size_t size){
         return NULL;
     }
     
-    size += size%MEM_ALIGN_SIZE; /*resize for memory alignment*/
+    size += MEM_ALIGN_SIZE - size%MEM_ALIGN_SIZE; /*resize for memory alignment*/
+    
     if(checkHeapSize(size) == -1){
         //no more space
         return NULL;
@@ -48,6 +49,12 @@ void *my_malloc(size_t size){
 }
 
 void *malloc(size_t size){
+    char buff[PBUFF_SIZE] = {0};
+        int len;
+        len = snprintf(buff, sizeof(buff), "MALLOC: sizeof(Node)=%zu\n", 
+                        sizeof(Node));
+        write(STDOUT_FILENO, buff, len);
+    
     void* r = my_malloc(size);
     if(getenv("DEBUG_MALLOC")){
         char buff[PBUFF_SIZE] = {0};
@@ -180,7 +187,7 @@ void *my_realloc(void *p, size_t size){
         return NULL;
     }
     
-    size += size%MEM_ALIGN_SIZE;/*resize for memory assignment*/
+    size += MEM_ALIGN_SIZE - size%MEM_ALIGN_SIZE;/*resize for memory assignment*/
     if(cur_node->next == NULL){
         /*tail node*/
         if(size > cur_node->size_alloc){
