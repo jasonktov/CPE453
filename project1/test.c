@@ -36,4 +36,5 @@ int main(){
     int *loc5 = malloc(sizeof(int)*1000);
     int *loc6 = malloc(sizeof(int)*1000);
     int *loc7 = malloc(sizeof(int)*1000);
+    return 0;
 }
