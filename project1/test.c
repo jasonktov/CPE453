@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 void fill(int *p, size_t size){
     for(int i = 0; i < size/sizeof(int); i++){
@@ -25,17 +26,11 @@ void test_dump(int *p, size_t size){
 
 int main(){
     printf("test: running\n");
-    int *loc1 = malloc(sizeof(int)*10);
-    fill(loc1, sizeof(int) * 10);
-    int *loc2 = malloc(sizeof(int)*100000);
-    test_dump(loc1, sizeof(int)*10);
-    printf("test: loc1[%p] = %d\n", loc1, test_fill(loc1, sizeof(int) * 10));
-    
-    loc1 = realloc(loc1, sizeof(int)*5);
-    test_dump(loc1, sizeof(int)*5);
-    printf("test: expand loc1[%p] = %d\n", loc1, test_fill(loc1, sizeof(int) * 5));
-    
-    loc1 = realloc(loc1, sizeof(int)*5);
-    test_dump(loc1, sizeof(int)*5);
-    printf("test: expand loc1[%p] = %d\n", loc1, test_fill(loc1, sizeof(int) * 5));
+    int *loc1 = malloc(sizeof(int)*1000);
+    int *loc2 = malloc(sizeof(int)*1000);
+    int *loc3 = malloc(sizeof(int)*1000);
+    int *loc4 = malloc(sizeof(int)*1000);
+    int *loc5 = malloc(sizeof(int)*1000);
+    int *loc6 = malloc(sizeof(int)*1000);
+    int *loc7 = malloc(sizeof(int)*1000);
 }

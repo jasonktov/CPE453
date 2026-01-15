@@ -1,5 +1,9 @@
 CFLAGS = -fPIC -g -Wall 
 
+test:libmalloc.a test.c
+	gcc $(CFLAGS) -o test test.c libmalloc.a
+	./test
+
 malloc:libmalloc.a libmalloc.so
 	echo done
 
