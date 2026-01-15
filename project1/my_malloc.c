@@ -208,7 +208,8 @@ void *my_realloc(void *p, size_t size){
                 if(dest == NULL){
                     return NULL;
                 }else{
-                    nodeCopy(cur_node, (Node *)dest - 1);/*pointer math to point to header*/
+                    nodeCopy(cur_node, (Node *)dest - 1);
+                    /*pointer math to point to header*/
                     my_free(cur_node);
                     return (void*)dest;
                 }
@@ -229,12 +230,14 @@ void *realloc(void *p, size_t size){
         char buff[PBUFF_SIZE] = {0};
         int len;
         if(r == NULL){
-            len = snprintf(buff, sizeof(buff),"MALLOC: realloc(%p, %zu) => (ptr=%p, size=%d)\n", 
-                p, size, r, 0);
+            len = snprintf(buff, sizeof(buff),
+                            "MALLOC: realloc(%p, %zu) => (ptr=%p, size=%d)\n", 
+                            p, size, r, 0);
         }else{
-            len = snprintf(buff, sizeof(buff),"MALLOC: realloc(%p, %zu) => (ptr=%p, size=%zu)\n", 
-                p, size, r, ((Node*)r - 1)->size_alloc);
-                /*pointer math to get to the header struct"*/
+            len = snprintf(buff, sizeof(buff),
+                            "MALLOC: realloc(%p, %zu) => (ptr=%p, size=%zu)\n",
+                            p, size, r, ((Node*)r - 1)->size_alloc);
+                            /*pointer math to get to the header struct"*/
         }
         write(STDOUT_FILENO, buff, len);
     }
