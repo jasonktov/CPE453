@@ -11,10 +11,10 @@ libmalloc.a:my_malloc.o node.o
 	ar r libmalloc.a my_malloc.o node.o
 	
 my_malloc.o:my_malloc.c my_malloc.h
-	gcc $(CFLAGS) -c my_malloc.o my_malloc.c 
+	gcc $(CFLAGS) -c -o my_malloc.o my_malloc.c 
     
 node.o:node.c node.h
-	gcc $(CFLAGS) -c node.o node.c 
+	gcc $(CFLAGS) -c -o node.o node.c 
 	
 libmalloc.so:my_malloc.o node.o
 	gcc $(CFLAGS) -shared -o libmalloc.so my_malloc.o node.o
