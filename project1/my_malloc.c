@@ -37,7 +37,8 @@ void *my_malloc(size_t size){
         return NULL;
     }
     
-    size += MEM_ALIGN_SIZE - size%MEM_ALIGN_SIZE; /*resize for memory alignment*/
+    //resize for memory assignment
+    size += MEM_ALIGN_SIZE - size%MEM_ALIGN_SIZE;
     
     if(checkHeapSize(size) == -1){
         //no more space
@@ -187,7 +188,8 @@ void *my_realloc(void *p, size_t size){
         return NULL;
     }
     
-    size += MEM_ALIGN_SIZE - size%MEM_ALIGN_SIZE;/*resize for memory assignment*/
+    //resize for memory assignment
+    size += MEM_ALIGN_SIZE - size%MEM_ALIGN_SIZE;
     if(cur_node->next == NULL){
         /*tail node*/
         if(size > cur_node->size_alloc){
