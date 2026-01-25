@@ -7,13 +7,13 @@ Node *rr_head = NULL;
 Node *run_node = NULL;
 
 void rr_admit(thread new){
-    if(thread == NULL){
+    if(new == NULL){
         return;
     }
     
     Node *new_node = (Node*)malloc(sizeof(Node));
     if(new_node == NULL){
-        printf("malloc failed");
+        printf("rr_admit(): malloc failed\n\r");
         exit(1);
     }
     new_node->data = new;
@@ -34,7 +34,7 @@ void rr_admit(thread new){
 }
 
 void rr_remove(thread victim){
-    if(thread == NULL || rr_head == NULL){
+    if(victim == NULL || victim == NULL){
         return;
     }
     
@@ -75,4 +75,31 @@ int rr_qlen(void){
 struct scheduler rr_publish = {
     NULL, NULL, rr_admit, rr_remove, rr_next, rr_qlen
 };
+
 ///////////////////////////////////////////////////////////////////////////////
+//LWP
+///////////////////////////////////////////////////////////////////////////////
+tid_t lwp_create(lwpfun fun, void* arg){
+    long page_size = sysconf(_SC_PAGE_SIZE);
+    if(page_size == -1){
+        printf("lwp_create(): Page size read error\n\r");
+        return NULL;
+    }
+    
+    struct rlimit rlim;
+    int stacksize_limit = DEFAULT_STACKSIZE;
+    if(getrlimit(RLIMIT_STACK, *rlim) == -1){
+        printf("lwp_create(): Stack size limit read error, continuing with default\n\r");
+    }
+    if(rlim.rlim_cur != RLIM_INFINITY){
+        stacksize_limit = rlim.rlim_cur;
+    }
+    
+    size_t stacksize = (size_t)page_size * (size_t)((float)stacksize_limit/(float)page_size);
+    
+    thread t = mmap(NULL,
+                    stacksize,
+                    PROT READ|PROT WRITE,
+                    MAP PRIVATE|MAP ANONYMOUS|MAP STACK,
+                    -1,0);
+}

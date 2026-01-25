@@ -3,6 +3,7 @@
 #include <sys/types.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #ifndef TRUE
 #define TRUE 1
@@ -11,10 +12,12 @@
 #define FALSE 0
 #endif
 
-
+/*
 #if defined(_x86_64)
-#include <fp.h>
-typedef struct _attribute_((alilgned(16))) _attribute_((packed))
+*/
+#include "fp.h"
+
+typedef struct __attribute__ ((aligned(16))) __attribute__ ((packed))
 registers{
     unsigned long rax;
     unsigned long rbx;
@@ -32,14 +35,17 @@ registers{
     unsigned long r14;
     unsigned long r15;
 	struct fxsave fxsave;
-}rfile;
+} rfile;
+/*
 #else
     #error "This only works on x86 for now"
 #endif
+*/
 
 
 typedef unsigned long tid_t;
 #define NO_THREAD 0
+#define DEFAULT_STACKSIZE 1<<23
 
 typedef struct threadinfo_st *thread;
 typedef struct threadinfo_st {
@@ -88,5 +94,5 @@ extern thread tid2thread(tid_t tid);
 #define LWPTERMINATED(s) ((((s)>>TERMOFFSET)&LWP_TERM)==LWP_TERM)
 #define LWPTERMSTAT(s) ((s)&((1<<TERMOFFSET)-1))
 
-void swap_rfiles(rfile, *old, rfile, *new);
+void swap_rfiles(rfile *old, rfile *new);
 #endif
