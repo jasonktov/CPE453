@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/mman.h>
+#include <sys/resource.h>
 
 #ifndef TRUE
 #define TRUE 1
@@ -54,10 +56,10 @@ typedef struct threadinfo_st {
     size_t stacksize;
     rfile state;
     unsigned int status;
-    thread lib_one;
-    thread lib_two;
-    thread sched_one;
-    thread sched_two;
+    thread lib_one; //next thread
+    thread lib_two; //prev thread
+    thread sched_one; //next thread
+    thread sched_two; //prev thread
     thread exited;
 }context;
 
@@ -71,12 +73,6 @@ typedef struct scheduler{
     int (*qlen)(void);
 }*scheduler;
 
-typedef struct sched_node{
-    thread data;
-    struct sched_node *next;
-    struct sched_node *prev;
-}Node;
-
 extern tid_t lwp_create(lwpfun, void*);
 extern void lwp_exit(int status);
 extern tid_t lwp_gettid(void);
@@ -88,7 +84,7 @@ extern scheduler lwp_get_scheduler(void);
 extern thread tid2thread(tid_t tid);
 
 #define TERMOFFSET 8
-#define MKTERMSTAT(a,b) ((a)<<TERMOFFSET|((b)&((1<<TERMOFFSET)-1)
+#define MKTERMSTAT(a,b) ((a)<<TERMOFFSET|((b)&((1<<TERMOFFSET)-1)))
 #define LWP_TERM 1
 #define LWP_LIVE 0
 #define LWPTERMINATED(s) ((((s)>>TERMOFFSET)&LWP_TERM)==LWP_TERM)

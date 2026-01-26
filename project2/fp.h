@@ -8,11 +8,11 @@
        64-ia-32-architectures-software-developer-manual-325462.pdf
  * This area must be 16-byte aligned.
  */
-#if defined(__x86_64)
+//#if defined(__x86_64)
 struct __attribute__ ((aligned(16))) __attribute__ ((__packed__)) fxsave {
-  #ifdef  __clang__
+  //#ifdef  __clang__
   uint8_t all[512];
-  #else
+  //#else
   uint16_t pad1;
   uint16_t cs_ip_bits;
   uint32_t fpu_ip_bits;
@@ -53,7 +53,7 @@ struct __attribute__ ((aligned(16))) __attribute__ ((__packed__)) fxsave {
   __float128 xmm14;
   __float128 xmm15;
   uint8_t pad4[48];         /* For safety.  Manual says it's 512 bytes */
-  #endif
+  //#endif
 };
 
 /* This was captured from a live FPU.  All of these bits are probably not
@@ -125,9 +125,9 @@ struct __attribute__ ((aligned(16))) __attribute__ ((__packed__)) fxsave {
      0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,\
      0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,\
      0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}}).fxsave
-#else
-  #error "This only works on x86_64 for now"
-#endif
+//#else
+//  #error "This only works on x86_64 for now"
+//#endif
 
 
 #endif
