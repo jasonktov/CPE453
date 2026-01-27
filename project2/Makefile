@@ -10,7 +10,7 @@ magic64.o:magic64.S
 	gcc $(CFLAGS) -o magic64.o -c magic64.S
 	
 test:liblwp.so test.c
-	gcc $(CFLAGS) -o test test.c liblwp.so
+	gcc $(CFLAGS) test.c -L. -llwp -o test 
 
 	
 
