@@ -10,7 +10,7 @@ PROGS	= snakes nums hungry
 
 SNAKEOBJS  = randomsnakes.o util.o
 
-SNAKELIBS = -lPLN -lsnakes -lncurses -lrt
+SNAKELIBS = -llwp -lsnakes -lncurses -lrt
 
 HUNGRYOBJS = hungrysnakes.o util.o
 
@@ -30,14 +30,14 @@ allclean: clean
 clean:	
 	rm -f $(OBJS) *~ TAGS
 
-snakes: randomsnakes.o util.o ../lib64/libPLN.so ../lib64/libsnakes.so
+snakes: randomsnakes.o util.o ../liblwp.so ../lib64/libsnakes.so
 	$(LD) $(LDFLAGS) -o snakes randomsnakes.o util.o $(SNAKELIBS)
 
-hungry: hungrysnakes.o  util.o ../lib64/libPLN.so ../lib64/libsnakes.so
+hungry: hungrysnakes.o  util.o ../liblwp.so ../lib64/libsnakes.so
 	$(LD) $(LDFLAGS) -o hungry hungrysnakes.o util.o $(SNAKELIBS)
 
-nums: numbersmain.o  util.o ../lib64/libPLN.so 
-	$(LD) $(LDFLAGS) -o nums numbersmain.o -lPLN
+nums: numbersmain.o  util.o ../liblwp.so 
+	$(LD) $(LDFLAGS) -o nums numbersmain.o -llwp
 
 hungrysnakes.o: hungrysnakes.c ../include/lwp.h ../include/snakes.h
 	$(CC) $(CFLAGS) -c hungrysnakes.c
