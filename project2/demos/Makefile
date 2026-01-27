@@ -30,13 +30,13 @@ allclean: clean
 clean:	
 	rm -f $(OBJS) *~ TAGS
 
-snakes: randomsnakes.o util.o ../liblwp.so ../lib64/libsnakes.so
+snakes: randomsnakes.o util.o ../lib64/liblwp.so ../lib64/libsnakes.so
 	$(LD) $(LDFLAGS) -o snakes randomsnakes.o util.o $(SNAKELIBS)
 
-hungry: hungrysnakes.o  util.o ../liblwp.so ../lib64/libsnakes.so
+hungry: hungrysnakes.o  util.o ../lib64/liblwp.so ../lib64/libsnakes.so
 	$(LD) $(LDFLAGS) -o hungry hungrysnakes.o util.o $(SNAKELIBS)
 
-nums: numbersmain.o  util.o ../liblwp.so 
+nums: numbersmain.o  util.o ../lib64/liblwp.so 
 	$(LD) $(LDFLAGS) -o nums numbersmain.o -llwp
 
 hungrysnakes.o: hungrysnakes.c ../include/lwp.h ../include/snakes.h
