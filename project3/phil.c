@@ -2,8 +2,7 @@
 #include <pthread.h>
 #include <semaphore.h>
 
-#define NUM_PHILOSOPHERS 5
-#define NUM_MAX_EATERS 2
+#define NUM_PHILOSOPHERS 8
 
 #ifndef TRUE
 #define TRUE 1
@@ -17,10 +16,7 @@ typedef enum phil_state{
     PHIL_CHANGING, PHIL_EATING, PHIL_THINKING, PHIL_TERM
 }p_state;
 
-int eaters = NUM_MAX_EATERS;
-
 sem_t forks[NUM_PHILOSOPHERS];
-sem_t eater;
 sem_t printer;
 
 typedef struct phil_status{
@@ -73,19 +69,6 @@ static void update_status(int seat, int left_fork, int right_fork, p_state state
 
 //-----------------------------------------------------------------------------
 static void start_eating(int seat, sem_t *left_fork, sem_t *right_fork){
-    /*
-    int can_eat = FALSE;
-    //check available eaters
-    while(can_eat == FALSE){
-        sem_wait(&eater);
-        if(eaters > 0){
-            eaters--;
-            can_eat = TRUE;
-        }
-        sem_post(&eater);
-    }
-    */
-    
     //pick up forks
     if(seat%2 == 0){
         sem_wait(left_fork);
@@ -117,12 +100,6 @@ static void stop_eating(int seat, sem_t *left_fork, sem_t *right_fork){
         sem_post(left_fork);
         update_status(seat, FALSE, FALSE, PHIL_CHANGING);
     }
-    //free eaters
-    /*
-    sem_wait(&eater);
-    eaters++;
-    sem_post(&eater);
-    */
 }
 
 void* philosopher(void* arg){
@@ -214,7 +191,6 @@ int main(int argc, char** argv){
         sem_post(&(forks[i]));
     }
     sem_post(&printer);
-    sem_post(&eater);
     
     //wait for philosophers to exit
     for(int i = 0; i < NUM_PHILOSOPHERS; i++){
