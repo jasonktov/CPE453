@@ -1,1 +1,15 @@
 Jason Tov (tov)
+
+I had a non-flat folder structure, so the Makefile is written for that, idk how handin handles folders.
+root
+-Makefile
+-README
+-src (directory)
+--lwp.c
+--magic64.S
+-include (directory)
+--lwp.h
+--fp.h
+-build (directory)
+
+Running make in root will outputs liblwp.so in the build directory. I can't submit directories, so you might need to mkdir it? 
