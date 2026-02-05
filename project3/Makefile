@@ -1,7 +1,7 @@
 
 
 dine:phil.o dawdle.o
-	gcc --std=c99 -g -Wall -fPIC -o dine phil.o dawdle.o
+	gcc --std=c99 -g -Wall -fPIC -o dine phil.o dawdle.o -lpthread
 	
 phil.o:phil.c
 	gcc --std=c99 -g -Wall -fPIC -o phil.o -c phil.c -lpthread

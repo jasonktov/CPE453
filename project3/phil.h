@@ -5,7 +5,7 @@
 #include "dawdle.h"
 
 #ifndef NUM_PHILOSOPHERS
-#define NUM_PHILOSOPHERS 8
+#define NUM_PHILOSOPHERS 5
 #endif
 
 #ifndef TRUE

@@ -57,7 +57,7 @@ static void print_header(){
     printf("|\n");
 }
 
-static void update_status(int seat, int left_fork, int right_fork, p_state state){
+static void update_status(int seat,int left_fork,int right_fork,p_state state){
     //updates the global struct that records the status of all philosophers
     //then prints out the status of all philosophers
     
@@ -89,7 +89,7 @@ static void update_status(int seat, int left_fork, int right_fork, p_state state
             rf_i = (i+1)%NUM_PHILOSOPHERS;
         }
         
-        char forks[NUM_PHILOSOPHERS];
+        char forks[NUM_PHILOSOPHERS+1];
         for(int f = 0; f < NUM_PHILOSOPHERS; f++){
             if(f == lf_i || f == rf_i){
                 forks[f] = '0' + f;
@@ -97,6 +97,7 @@ static void update_status(int seat, int left_fork, int right_fork, p_state state
                 forks[f] = '-';
             }
         }
+        forks[NUM_PHILOSOPHERS] = '\0';
             
         printf("| %s %s ", forks, state_msg);
     }
