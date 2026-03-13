@@ -1,4 +1,4 @@
-CFLAGS = -fPIC -g -Wall -c99
+CFLAGS = -fPIC -g -Wall -std=c99
 
 all:minls
 
