@@ -279,7 +279,8 @@ int main(int argc, char** argv){
             
             //scan through all zones of this directory
             int bytes_read;
-            bytes_read = inode_read((uint8_t*)&cur_dir_z, cur_inode, z, sizeof(dirent)*64);
+            bytes_read = inode_read(
+                    (uint8_t*)&cur_dir_z, cur_inode, z, sizeof(dirent)*64);
             if(bytes_read == 0){
                 //end of data zones
                 break;
@@ -291,7 +292,7 @@ int main(int argc, char** argv){
                     && cur_dir_z[i].inode_num != 0){
                     found = TRUE;
                     strcat(cur_path, cur_dir_z[i].name);
-                    cur_inode = inode_list[cur_dir_z[i].inode_num - 1];//1-index
+                    cur_inode = inode_list[cur_dir_z[i].inode_num - 1];
                 }
             }
             z++;
