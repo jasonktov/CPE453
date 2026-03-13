@@ -1,5 +1,4 @@
 
-
 dine:phil.o dawdle.o
 	gcc --std=c99 -g -Wall -fPIC -o dine phil.o dawdle.o -lpthread
 	
