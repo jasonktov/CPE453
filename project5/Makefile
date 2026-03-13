@@ -1,5 +1,7 @@
 CFLAGS = -fPIC -g -Wall
 
+all:minls
+
 minls: minls.o minprint.o
 	gcc $(CFLAGS) -o minls minls.o minprint.o
 	
