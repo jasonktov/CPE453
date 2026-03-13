@@ -58,6 +58,7 @@ int find_fs_offset(int p, int s){
 
 int read_zone(uint8_t *dest, uint32_t *zone_list, int z_i){
     if(zone_list[z_i] == 0){
+        memset(dest, 0, zonesize);
         return 0;
     }else{
         pread(fd, dest, zonesize, fs_offset + (zone_list[z_i]*zonesize));
@@ -288,15 +289,17 @@ int main(int argc, char** argv){
     uint8_t w_buff[zonesize];
     //scan through all zones of this directory
     int bytes_read;
+    int bytes_written = 0;
     int z = 0;
     
     bytes_read = inode_read(w_buff, cur_inode, z, zonesize);
-    while(bytes_read != 0){
+    while(cur_inode.size - bytes_written > zonesize){
         write(dest_fd, w_buff, zonesize);
 
         z++;
         bytes_read = inode_read(w_buff, cur_inode, z, zonesize);
     }
+    write(dest_fd, w_buff, cur_inode.size - bytes_written);
     
     return 0;
 }
