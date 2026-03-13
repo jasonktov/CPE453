@@ -16,6 +16,7 @@ typedef enum{
 #include <errno.h>
 #include <stdint.h>
 #include <math.h>
+#include <sys/stat.h>
 
 #include <getopt.h>
 extern char *optarg;
