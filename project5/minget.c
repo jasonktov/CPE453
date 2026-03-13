@@ -159,7 +159,7 @@ int main(int argc, char** argv){
     if(dest_path[0] == -1){
         dest_fd = STDOUT_FILENO;
     }else{
-        dest_fd = open(dest_path, O_WRONLY | O_APPEND | O_CREAT, 
+        dest_fd = open(dest_path, O_WRONLY | O_TRUNC | O_CREAT, 
                         S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
     }
     
