@@ -266,8 +266,11 @@ int main(int argc, char** argv){
     
     //traverse directories
     dirent cur_dir_z[64];
+    memset(cur_dir_z, 0, sizeof(cur_dir_z));
     
     char cur_path[MAX_FILEPATH];
+    memset(cur_path, 0, MAX_FILEPATH);
+    cur_path[0] = '\0';
     
     for(int d = 0; d < depth; d++){
         int found = FALSE;
