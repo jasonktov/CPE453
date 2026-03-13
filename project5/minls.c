@@ -70,7 +70,7 @@ int inode_read(uint8_t* dest, inode n, int z_i, int size){
     //Reads from a zone from inode n
     uint8_t buff[zonesize];
     int bytes_read = 0;
-    if(z_i < 8){
+    if(z_i < DIRECT_ZONES){
         //check direct
         bytes_read = read_zone(buff, n.zone, z_i);
     }else{
@@ -79,7 +79,7 @@ int inode_read(uint8_t* dest, inode n, int z_i, int size){
             uint32_t indirect[blocksize/sizeof(uint32_t)];
             pread(fd, indirect, blocksize, fs_offset + (n.indirect*zonesize));
             
-            bytes_read = read_zone(buff, indirect, z_i);
+            bytes_read = read_zone(buff, indirect, z_i-DIRECT_ZONES);
         }
     }
     if(bytes_read == 0){
@@ -307,9 +307,9 @@ int main(int argc, char** argv){
         
         if(!found){
             strcat(cur_path, path_list[d]);
-            printf("%s not found\n", cur_path);
+            perror("File not found\n");
             close(fd);
-            return 0;
+            return 1;
         }
         
         if(d != depth-1){
