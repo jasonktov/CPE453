@@ -1,6 +1,8 @@
 #ifndef MINLS_H
 #define MINLS_H
 
+#define _XOPEN_SOURCE 500
+
 typedef enum{
     TRUE = 1,
     FALSE = 0

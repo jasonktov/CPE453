@@ -27,7 +27,7 @@ int find_fs_offset(int p, int s){
     }
     
     if(ptable[p].type != PTYPE_MINIX){
-        printf("Partition is not a MINIX filesystem\n");
+        perror("Partition is not a MINIX filesystem\n");
         return -1;
     }
     
