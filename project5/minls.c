@@ -76,7 +76,6 @@ int inode_read(uint8_t* dest, inode n, int z_i, int size){
     }else{
         //read indirect
         if(n.indirect != 0){
-            printf("reading indirect\n");
             uint32_t indirect[blocksize/sizeof(uint32_t)];
             pread(fd, indirect, blocksize, fs_offset + (n.indirect*zonesize));
             
