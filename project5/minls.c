@@ -76,6 +76,7 @@ int inode_read(uint8_t* dest, inode n, int z_i, int size){
     }else{
         //read indirect
         if(n.indirect != 0){
+            printf("reading indirect\n");
             uint32_t indirect[blocksize/sizeof(uint32_t)];
             pread(fd, indirect, blocksize, fs_offset + (n.indirect*zonesize));
             
@@ -112,15 +113,16 @@ void inode_ls(inode n, char* path){
 }
 
 void dir_ls(inode n, char* path, inode* inode_list){
-    dirent dir_z[64];
+    int entries = zonesize/sizeof(dirent);
+    dirent dir_z[entries];
     //scan through all zones of this directory
     int bytes_read;
     int z = 0;
     
-    bytes_read = inode_read((uint8_t*)&dir_z, n, z, sizeof(dirent)*64);
+    bytes_read = inode_read((uint8_t*)&dir_z, n, z, zonesize);
     while(bytes_read != 0){
         //scan through all entries in this data zone
-        for(int i = 0; i < 64; i++){
+        for(int i = 0; i < entries; i++){
             char* curent_name = dir_z[i].name;
             int curent_inode = dir_z[i].inode_num;
             if(curent_name[0] != 0 && curent_inode != 0){
@@ -128,7 +130,7 @@ void dir_ls(inode n, char* path, inode* inode_list){
             }
         }
         z++;
-        bytes_read = inode_read((uint8_t*)&dir_z, n, z, sizeof(dirent)*64);
+        bytes_read = inode_read((uint8_t*)&dir_z, n, z, zonesize);
     }
 }
 
@@ -279,9 +281,9 @@ int main(int argc, char** argv){
         while(!found){
             //check if cur_inode is a directory
             if(IS_FILE(cur_inode.mode)){
-                printf("%s is not a directory\n", cur_path);
+                perror("Not a directory\n");
                 close(fd);
-                return 0;
+                return 1;
             }
             
             //scan through all zones of this directory
