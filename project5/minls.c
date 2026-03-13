@@ -18,7 +18,7 @@ int find_fs_offset(int p, int s){
     pread(fd, &psig, sizeof(psig), PSIG_OFFSET);
     if(psig != PSIG){
         //no partition table
-        printf("No valid partition table found in disk\n");
+        perror("No valid partition table found in disk\n");
         return -1;
     }
     
@@ -41,7 +41,7 @@ int find_fs_offset(int p, int s){
     pread(fd, &psig, sizeof(psig), PSIG_OFFSET + poffset);
     if(psig != PSIG){
         //no subpartition table
-        printf("No valid partition table found in subpartition\n");
+        perror("No valid partition table found in subpartition\n");
         return -1;
     }
     
@@ -50,7 +50,7 @@ int find_fs_offset(int p, int s){
     }
     
     if(ptable[s].type != PTYPE_MINIX){
-        printf("Subpartition is not a MINIX filesystem\n");
+        perror("Subpartition is not a MINIX filesystem\n");
         return -1;
     }
     return (SECTOR_SIZE * ptable[s].lFirst);
@@ -158,9 +158,6 @@ int main(int argc, char** argv){
             case 's':
                 subpartition = atoi(optarg);
                 break;
-            case 'h':
-                help = TRUE;
-                break;
             case 1:
                 if(!fn_found){
                     strncpy(filename, optarg, MAX_FILENAME);
@@ -169,20 +166,23 @@ int main(int argc, char** argv){
                     strncpy(path, optarg, MAX_FILEPATH);
                 }
                 break;
+            default:
+                perror("bad argument");
+                return 1;
         }
         ret = getopt(argc, argv, "-vp:s:");
     }
     
     //validate arguments
     if(partition > 3){
-        printf("Invalid partition number\n");
+        perror("Invalid partition number\n");
         return 1;
     } 
     if(subpartition > 3){
-        printf("Invalid subpartition number\n");
+        perror("Invalid subpartition number\n");
         return 1;
     }    
-    if((filename[0] == -1) ||( help == TRUE)){
+    if((filename[0] == -1)){
         printf("usage: minls [ -v ] [ -p num [ -s num ] ] imagefile [ path ]\n"
                "Options:\n"
                "-p part --- select partition for filesystem (default: none)\n"
@@ -214,15 +214,11 @@ int main(int argc, char** argv){
         return 1;
     }
     
-    if(verbose){
-        printf("fs_offset=%d\n", fs_offset);
-    }
-    
     //read file system superblock
     superblock sblock;
     pread(fd, &sblock, sizeof(sblock), fs_offset + SBLOCK_OFFSET);
     if(sblock.magic != SBLOCK_MAGIC){
-        printf("Invalid superblock\n");
+        perror("Invalid superblock\n");
         close(fd);
         return 1;
     }
