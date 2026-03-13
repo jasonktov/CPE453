@@ -138,6 +138,7 @@ int main(int argc, char** argv){
     int partition = -1;;
     int subpartition = -1;
     
+    bool help = FALSE;
     bool fn_found = FALSE;
     char filename[MAX_FILENAME];
     filename[0] = -1;
@@ -145,7 +146,7 @@ int main(int argc, char** argv){
     path[0] = -1;
     
     int ret;
-    ret = getopt(argc, argv, "-vp:s:");
+    ret = getopt(argc, argv, "-vhp:s:");
     while(ret != -1){
         switch(ret){
             case 'v':
@@ -156,6 +157,9 @@ int main(int argc, char** argv){
                 break;
             case 's':
                 subpartition = atoi(optarg);
+                break;
+            case 'h':
+                help = TRUE;
                 break;
             case 1:
                 if(!fn_found){
@@ -178,7 +182,7 @@ int main(int argc, char** argv){
         printf("Invalid subpartition number\n");
         return 1;
     }    
-    if(filename[0] == -1){
+    if((filename[0] == -1) ||( help == TRUE)){
         printf("usage: minls [ -v ] [ -p num [ -s num ] ] imagefile [ path ]\n"
                "Options:\n"
                "-p part --- select partition for filesystem (default: none)\n"
@@ -222,7 +226,9 @@ int main(int argc, char** argv){
         close(fd);
         return 1;
     }
-    print_sblock(sblock);
+    if(verbose){
+        print_sblock(sblock);
+    }
     
     blocksize = sblock.blocksize;
     zonesize = blocksize << sblock.log_zone_size;
@@ -237,7 +243,9 @@ int main(int argc, char** argv){
     
     //parse destination path
     if(path[0] == -1){
-        print_inode(cur_inode);
+        if(verbose){
+            print_inode(cur_inode);
+        }
         printf("/:\n");
         dir_ls(cur_inode, "", inode_list);
         return 0;
@@ -248,7 +256,9 @@ int main(int argc, char** argv){
     char *arg;
     arg = strtok(path, "/");
     if(arg == NULL){
-        print_inode(cur_inode);
+        if(verbose){
+            print_inode(cur_inode);
+        }
         printf("/:\n");
         dir_ls(inode_list[0], "", inode_list);
         return 0;
