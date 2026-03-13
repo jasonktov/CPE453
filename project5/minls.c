@@ -26,14 +26,14 @@ int find_fs_offset(int p, int s){
         print_ptable(ptable);
     }
     
+    if(ptable[p].type != PTYPE_MINIX){
+        printf("Partition is not a MINIX filesystem\n");
+        return -1;
+    }
+    
     poffset = SECTOR_SIZE * ptable[p].lFirst;
     if(s == -1){
-        if(ptable[p].type != PTYPE_MINIX){
-            printf("Partition is not a MINIX filesystem\n");
-            return -1;
-        }else{
-            return poffset;
-        }
+        return poffset;
     }
     
     //read subpartition table
@@ -138,7 +138,6 @@ int main(int argc, char** argv){
     int partition = -1;;
     int subpartition = -1;
     
-    bool help = FALSE;
     bool fn_found = FALSE;
     char filename[MAX_FILENAME];
     filename[0] = -1;
@@ -269,7 +268,6 @@ int main(int argc, char** argv){
     dirent cur_dir_z[64];
     
     char cur_path[MAX_FILEPATH];
-    cur_path[0] = '/';
     
     for(int d = 0; d < depth; d++){
         int found = FALSE;
