@@ -321,8 +321,9 @@ int main(int argc, char** argv){
         print_inode(cur_inode);
     }
     
-    printf("%s:\n", cur_path);
+    
     if(IS_DIR(cur_inode.mode)){
+        printf("%s:\n", cur_path);
         dir_ls(cur_inode, cur_path, inode_list);
     }else{
         inode_ls(cur_inode, cur_path);
