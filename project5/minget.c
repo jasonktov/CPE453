@@ -295,7 +295,7 @@ int main(int argc, char** argv){
     bytes_read = inode_read(w_buff, cur_inode, z, zonesize);
     while(cur_inode.size - bytes_written > zonesize){
         write(dest_fd, w_buff, zonesize);
-
+        bytes_written += zonesize;
         z++;
         bytes_read = inode_read(w_buff, cur_inode, z, zonesize);
     }

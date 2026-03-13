@@ -58,6 +58,7 @@ int find_fs_offset(int p, int s){
 
 int read_zone(uint8_t *dest, uint32_t *zone_list, int z_i){
     if(zone_list[z_i] == 0){
+        memset(dest, 0, zonesize);
         return 0;
     }else{
         pread(fd, dest, zonesize, fs_offset + (zone_list[z_i]*zonesize));
